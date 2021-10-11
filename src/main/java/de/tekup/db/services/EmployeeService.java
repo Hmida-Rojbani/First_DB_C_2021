@@ -4,10 +4,14 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import de.tekup.db.entities.Employee;
+import de.tekup.db.entities.Matricule;
+import de.tekup.db.errors.EmployeeSaveDBException;
 import de.tekup.db.repositories.EmployeeRepository;
+import de.tekup.db.repositories.MatriculeRepository;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -15,10 +19,19 @@ import lombok.AllArgsConstructor;
 public class EmployeeService {
 	
 	private EmployeeRepository empRepos;
+	private MatriculeRepository matRepos;
 	
 	//save Employee in DB
 	public Employee saveEmp(Employee employee) {
-		return empRepos.save(employee);
+		//extract matricule
+		Matricule matricule = employee.getMatricule();
+		//matRepos.save(matricule);
+		try {
+			return empRepos.save(employee);
+		}catch (DataIntegrityViolationException e) {
+			throw new EmployeeSaveDBException(e.getMessage());
+		}
+		
 	}
 	//Get employee from DB by Id
 	public Employee getEmpById(int id) {

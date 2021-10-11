@@ -3,6 +3,7 @@ package de.tekup.db.controllers;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.tekup.db.entities.Employee;
+import de.tekup.db.errors.EmployeeSaveDBException;
 import de.tekup.db.services.EmployeeService;
 import lombok.AllArgsConstructor;
 
@@ -53,6 +55,13 @@ public class EmployeeCtrl {
 	public ResponseEntity<String> handleNoSuchElementSndNumberFormat(RuntimeException e) {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND)
 							 .body("Error in finding Employee : "+e.getMessage());
+							 
+	}
+	
+	@ExceptionHandler(EmployeeSaveDBException.class)
+	public ResponseEntity<String> handleDataIntegrityViolationException(EmployeeSaveDBException e) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+							 .body("Error in saving Employee : "+e.getMessage());
 							 
 	}
 

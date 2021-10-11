@@ -2,6 +2,7 @@ package de.tekup.db.entities;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class Employee {
 	private String email;
 	
 	private LocalDate dob;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
 	private Matricule matricule;
 
 }

@@ -1,5 +1,9 @@
 {
 	"name" : "John Doe",
 	"dob" : "2000-02-03",
-	"email" : "john.doe@gmail.com"
+	"email" : "john.doe@gmail.com",
+	"matricule" : {
+					"code":"emp001",
+					"endValidationDate": "2022-12-31"
+	}
 }
