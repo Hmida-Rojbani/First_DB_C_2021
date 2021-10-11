@@ -1,5 +1,6 @@
 package de.tekup.db.controllers;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +23,7 @@ public class EmployeeCtrl {
 	
 	private EmployeeService empService;
 	
-	@PostMapping("/employee/save")
+	@PostMapping("/employee/add")
 	public Employee saveEmployee(@RequestBody Employee employee) {
 		return empService.saveEmp(employee);
 	}
@@ -31,10 +33,20 @@ public class EmployeeCtrl {
 		return empService.getEmpById(id);
 	}
 	
-	@ExceptionHandler(NoSuchElementException.class)
-	public ResponseEntity<String> handleNoSuchElementException(NoSuchElementException e) {
+	@GetMapping("/employee/get")
+	public List<Employee> getAllEmployees() {
+		return empService.getEmployees();
+	}
+	
+	@PutMapping("/employee/update/{id}")
+	public Employee updateEmployee(@PathVariable("id") int id, @RequestBody Employee newEmployee) {
+		return empService.updateEmployee(newEmployee, id);
+	}
+	
+	@ExceptionHandler({NoSuchElementException.class,NumberFormatException.class})
+	public ResponseEntity<String> handleNoSuchElementSndNumberFormat(RuntimeException e) {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND)
-							 .body(e.getMessage());
+							 .body("Error in finding Employee : "+e.getMessage());
 							 
 	}
 

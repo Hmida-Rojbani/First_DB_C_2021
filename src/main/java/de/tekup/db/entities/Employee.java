@@ -19,9 +19,7 @@ public class Employee {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@Column(length = 50, nullable = false)
-	private String firstName;
-	@Column(length = 50, nullable = false)
-	private String lastName;
+	private String name;
 	@Column(length = 70, nullable = false, unique = true)
 	private String email;
 	
