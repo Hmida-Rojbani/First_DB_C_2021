@@ -23,9 +23,10 @@ public class EmployeeService {
 	
 	//save Employee in DB
 	public Employee saveEmp(Employee employee) {
-		//extract matricule
-		Matricule matricule = employee.getMatricule();
-		//matRepos.save(matricule);
+		//use cascade.Persist in place
+			//extract matricule
+			//Matricule matricule = employee.getMatricule();
+			//matRepos.save(matricule);
 		try {
 			return empRepos.save(employee);
 		}catch (DataIntegrityViolationException e) {
