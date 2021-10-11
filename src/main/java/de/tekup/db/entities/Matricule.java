@@ -29,6 +29,7 @@ public class Matricule {
 	@OneToOne(mappedBy = "matricule")
 	private Employee employee;
 	
+	@JsonIgnore
 	@ManyToOne
 	private MatriculeCreator creator;
 
